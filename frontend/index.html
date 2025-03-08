@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devanagari Letter Recognizer</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        canvas { border: 2px solid black; touch-action: none; }
+        button { margin: 10px; padding: 10px; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <h1>Draw a Devanagari Letter</h1>
+    <canvas id="drawingCanvas" width="280" height="280"></canvas>
+    <br>
+    <button onclick="clearCanvas()">Clear</button>
+    <button onclick="predictLetter()">Predict</button>
+    <p id="result">Prediction: </p>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
