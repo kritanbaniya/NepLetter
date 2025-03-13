@@ -40,29 +40,37 @@ function clearCanvas() {
 
 // Convert Canvas to Image & Send to Backend
 function predictLetter() {
-    // let image = canvas.toDataURL("image/png"); // Convert drawing to image
-    // fetch("http://127.0.0.1:8000/predict", { // Send image to FastAPI backend
-    //     method: "POST",
-    //     body: dataURItoBlob(image),
-    //     headers: { "Content-Type": "application/octet-stream" }
-    // })
-    // .then(response => response.json()) // Get the prediction
-    // .then(data => {
-    //     document.getElementById("result").innerText = "Prediction: " + data.prediction;
-    // })
-    // .catch(error => console.error("Error:", error));
 
 
-    document.getElementById("result").innerText = "Prediction: " + "button";
+    let canvas = document.getElementById("drawingCanvas");
+
+    // Create a temporary 32x32 canvas
+    let tempCanvas = document.createElement("canvas");
+    tempCanvas.width = 32;
+    tempCanvas.height = 32;
+    let tempCtx = tempCanvas.getContext("2d");
+
+    // Resize the image to 32x32
+    tempCtx.drawImage(canvas, 0, 0, 32, 32);
+
+    // // commented out code: Open a new window and show the resized image (for testing)
+    // let newWindow = window.open("", "_blank");
+    // let img = new Image();
+    // img.src = tempCanvas.toDataURL("image/png"); // Convert canvas to image
+    // newWindow.document.write("<p>Resized Image (32x32):</p>");
+    // newWindow.document.body.appendChild(img);
+
+    fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json" // Specify JSON format
+        },
+        body: JSON.stringify({ name: "Kritan" }) // Send { name: "Kritan" }
+    })
+    .then(response => response.json()) // Parse JSON response
+    .then(data => {
+        document.getElementById("result").innerText = data.message; // Display response
+    })
+    .catch(error => console.error("Error:", error));
 }
 
-// Convert Base64 image to Blob (needed for FastAPI)
-function dataURItoBlob(dataURI) {
-    let byteString = atob(dataURI.split(",")[1]);
-    let arrayBuffer = new ArrayBuffer(byteString.length);
-    let uint8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-        uint8Array[i] = dataURI.charCodeAt(i);
-    }
-    return new Blob([uint8Array], { type: "image/png" });
-}

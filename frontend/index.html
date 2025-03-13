@@ -4,16 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devanagari Letter Recognizer</title>
-    <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        canvas { border: 2px solid black; touch-action: none; }
-        button { margin: 10px; padding: 10px; font-size: 16px; }
-    </style>
+    <link rel='stylesheet' href='index.css'>
 </head>
 <body>
 
     <h1>Draw a Devanagari Letter</h1>
-    <canvas id="drawingCanvas" width="280" height="280"></canvas>
+    <canvas id="drawingCanvas" width="320" height="320"></canvas>
     <br>
     <button onclick="clearCanvas()">Clear</button>
     <button onclick="predictLetter()">Predict</button>

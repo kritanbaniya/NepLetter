@@ -1,4 +1,12 @@
-from fastapi import FastAPI
+### to get backend running
+#### --- cd /Users/kritan/Desktop/NepLetter/backend
+###venv---- source tf_venv/bin/activate
+###api----- uvicorn main:app --reload
+###  --- http://127.0.0.1:8000/docs
+
+
+from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from PIL import Image
 import io
@@ -8,36 +16,25 @@ import tensorflow as tf
 # Initialize FastAPI app
 app = FastAPI()
 
+# Enable CORS for frontend requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"],  # Specific frontend
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
 @app.get("/")
 def read_root():
     return {"message": "Hello, World! testing"}
 
-# # Load your trained TensorFlow model (replace with actual model path)
-# model = tf.keras.models.load_model('path_to_your_model.h5')  # Update this path
 
-# # Pydantic model to handle incoming image data
-# class ImageData(BaseModel):
-#     image: bytes
 
-# # Route to handle predictions
-# @app.post("/predict")
-# async def predict(data: ImageData):
-#     try:
-#         # Convert the incoming bytes into an image
-#         image = Image.open(io.BytesIO(data.image))
-        
-#         # Pre-process the image (resize, normalize, etc.)
-#         image = image.convert('L')  # Convert to grayscale
-#         image = image.resize((28, 28))  # Resize to the size expected by the model
-#         image = np.array(image) / 255.0  # Normalize the pixel values
-#         image = np.expand_dims(image, axis=-1)  # Add the channel dimension if needed
-#         image = np.expand_dims(image, axis=0)  # Add the batch dimension
+# Define request model
+class NameRequest(BaseModel):
+    name: str  # Enforce "name" must be a string
 
-#         # Get model prediction
-#         prediction = model.predict(image)
-#         predicted_class = np.argmax(prediction, axis=1)[0]
-
-#         return {"prediction": predicted_class}
-    
-#     except Exception as e:
-#         return {"error": str(e)}
+@app.post("/predict")
+async def predict_letter(request: NameRequest):
+    return {"message": f"Hello {request.name}"}
