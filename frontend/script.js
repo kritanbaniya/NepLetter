@@ -35,21 +35,25 @@ function draw(e) {
 // Clear Canvas
 function clearCanvas() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    document.getElementById("result").innerText = "Prediction: ";
 }
 
 // Convert Canvas to Image & Send to Backend
 function predictLetter() {
-    let image = canvas.toDataURL("image/png"); // Convert drawing to image
-    fetch("http://127.0.0.1:8000/predict", { // Send image to FastAPI backend
-        method: "POST",
-        body: dataURItoBlob(image),
-        headers: { "Content-Type": "application/octet-stream" }
-    })
-    .then(response => response.json()) // Get the prediction
-    .then(data => {
-        document.getElementById("result").innerText = "Prediction: " + data.prediction;
-    })
-    .catch(error => console.error("Error:", error));
+    // let image = canvas.toDataURL("image/png"); // Convert drawing to image
+    // fetch("http://127.0.0.1:8000/predict", { // Send image to FastAPI backend
+    //     method: "POST",
+    //     body: dataURItoBlob(image),
+    //     headers: { "Content-Type": "application/octet-stream" }
+    // })
+    // .then(response => response.json()) // Get the prediction
+    // .then(data => {
+    //     document.getElementById("result").innerText = "Prediction: " + data.prediction;
+    // })
+    // .catch(error => console.error("Error:", error));
+
+
+    document.getElementById("result").innerText = "Prediction: " + "button";
 }
 
 // Convert Base64 image to Blob (needed for FastAPI)

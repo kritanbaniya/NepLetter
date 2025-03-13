@@ -1,0 +1,14 @@
+# Ignore virtual environment
+tf_venv/
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore other potential files/folders
+*.pyo
+*.pyd
+*.db
+*.log
+*.bak
+*.swp
