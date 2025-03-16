@@ -13,7 +13,21 @@
     <br>
     <button onclick="clearCanvas()">Clear</button>
     <button onclick="predictLetter()">Predict</button>
-    <p id="result">Prediction: </p>
+
+    <h2 id="result">Prediction: </h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Class</th>
+                <th>Guess confidence (%)</th>
+                <th>Graph</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- JavaScript will insert rows here -->
+        </tbody>
+    </table>
 
     <script src="script.js"></script>
 
