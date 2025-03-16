@@ -3,11 +3,11 @@ const ctx = canvas.getContext("2d"); // ctx is the context used to draw on the c
 let drawing = false;
 
 // Initialize canvas settings
-ctx.fillStyle = "white"; // Set background color to white
+ctx.fillStyle = "black"; // Set background color to white
 ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill entire canvas with white
-ctx.lineWidth = 10; // Set pen thickness to 10 pixels
-ctx.lineCap = "round"; // Makes strokes rounded for smoother drawing
-ctx.strokeStyle = "black"; // Set pen color to black
+ctx.lineWidth = 20; // Set pen thickness to 10 pixels
+ctx.lineCap = "square"; // Makes strokes rounded for smoother drawing
+ctx.strokeStyle = "white"; // Set pen color to black
 
 // Mouse Events
 canvas.addEventListener("mousedown", (e) => { drawing = true; draw(e); });
@@ -53,24 +53,22 @@ function predictLetter() {
     // Resize the image to 32x32
     tempCtx.drawImage(canvas, 0, 0, 32, 32);
 
-    // // commented out code: Open a new window and show the resized image (for testing)
-    // let newWindow = window.open("", "_blank");
-    // let img = new Image();
-    // img.src = tempCanvas.toDataURL("image/png"); // Convert canvas to image
-    // newWindow.document.write("<p>Resized Image (32x32):</p>");
-    // newWindow.document.body.appendChild(img);
+   // Convert canvas to Blob
+    tempCanvas.toBlob(async (blob) => {
+    const formData = new FormData();
+    formData.append("file", blob, "canvas_image.png");
 
-    fetch("http://127.0.0.1:8000/predict", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json" // Specify JSON format
-        },
-        body: JSON.stringify({ name: "Kritan" }) // Send { name: "Kritan" }
-    })
-    .then(response => response.json()) // Parse JSON response
-    .then(data => {
-        document.getElementById("result").innerText = data.message; // Display response
-    })
-    .catch(error => console.error("Error:", error));
+    try {
+        const response = await fetch("http://127.0.0.1:8000/predict/", {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+        document.getElementById("result").innerText = "Prediction: " + result.predicted_class;
+        console.log("Server response:", result);
+    } catch (error) {
+        console.error("Upload failed:", error);
+    }
+}, "image/png");
 }
-

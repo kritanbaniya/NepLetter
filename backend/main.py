@@ -7,14 +7,18 @@
 
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi import HTTPException
 from pydantic import BaseModel
 from PIL import Image
 import io
 import numpy as np
 import tensorflow as tf
+from npPrediction import nepPrediction
 
 # Initialize FastAPI app
 app = FastAPI()
+
 
 # Enable CORS for frontend requests
 app.add_middleware(
@@ -25,16 +29,12 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, World! testing"}
 
-
-
-# Define request model
-class NameRequest(BaseModel):
-    name: str  # Enforce "name" must be a string
-
-@app.post("/predict")
-async def predict_letter(request: NameRequest):
-    return {"message": f"Hello {request.name}"}
+@app.post("/predict/")
+async def predict_image(file: UploadFile = File(...)):
+    try:
+        image = Image.open(io.BytesIO(await file.read()))
+        predicted_class = nepPrediction(image)
+        return JSONResponse(content={"predicted_class": predicted_class})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
