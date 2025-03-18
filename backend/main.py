@@ -35,7 +35,7 @@ async def predict_image(file: UploadFile = File(...)):
     try:
         image = Image.open(io.BytesIO(await file.read()))
         prediction_dict = nepPrediction(image)
-        print(prediction_dict)
+        #print(prediction_dict)
         return JSONResponse(content=prediction_dict)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

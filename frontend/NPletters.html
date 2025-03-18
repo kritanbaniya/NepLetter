@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devanagari Letter Recognizer</title>
+    <link rel='stylesheet' href='NPletters.css'>
+</head>
+<body>
+    <button onclick="window.location.href='index.html'">Back</button>
+    <div class="container">
+        <div class="canvas-container">
+            <canvas id="drawingCanvas" width="320" height="320"></canvas>
+            <br>
+            <button onclick="clearCanvas()">Clear</button>
+            <button onclick="predictLetter()">Predict</button>
+        </div>
+    
+        <div class="table-container">
+            <h2 id="result">Prediction: </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Class</th>
+                        <th>Guess confidence (%)</th>
+                        <th>Graph</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- JavaScript will insert rows here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <script src="script.js"></script>
+
+</body>
+</html>

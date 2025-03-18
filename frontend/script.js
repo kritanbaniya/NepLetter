@@ -2,11 +2,11 @@ const canvas = document.getElementById("drawingCanvas");
 const ctx = canvas.getContext("2d"); // ctx is the context used to draw on the canvas (2D drawing).
 let drawing = false;
 // Initialize canvas settings
-ctx.fillStyle = "black"; // Set background color to white
+ctx.fillStyle = "black"; // Set background color to black
 ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill entire canvas with white
 ctx.lineWidth = 20; // Set pen thickness to 10 pixels
 ctx.lineCap = "round"; // Makes strokes rounded for smoother drawing
-ctx.strokeStyle = "white"; // Set pen color to black
+ctx.strokeStyle = "white"; // Set pen color to white
 
 // Mouse Events
 canvas.addEventListener("mousedown", (e) => { drawing = true; draw(e); });
@@ -113,7 +113,7 @@ function renderTable(data = sampleData) {
         row.innerHTML = `
             <td>${entry.index}</td>
             <td>${entry.class}</td>
-            <td>${entry.probability.toFixed(6)}%</td>
+            <td>${entry.probability.toFixed(3)}%</td>
             <td>
                 <div class="bar-container">
                     <div class="bar" style="width: ${entry.probability / maxProbability * 100}%">
